@@ -54,15 +54,7 @@ elsif exists "X-ME-Cal-Exists" {
 }
 
 ### 7. Sieve generated for organise rules
-if
-  anyof(
-  exists "List-Id",
-  exists "List-Post",
-  exists "List-Unsubscribe"
-  )
-{
-  fileinto "INBOX.Lists";
-}
+# You have no organise rules.
 
 ### 8. Sieve generated for pop-link filing
 # You have no pop-links filing into special folders.
