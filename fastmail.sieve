@@ -54,7 +54,35 @@ elsif exists "X-ME-Cal-Exists" {
 }
 
 ### 7. Sieve generated for organise rules
-# You have no organise rules.
+if
+  allof(
+  address :is "From" "service@paypal.com",
+  header :is "X-Email-Type-Id" "PPC000590"
+  )
+{
+  addflag "\\Seen";
+  fileinto "INBOX.Receipts";
+  removeflag "\\Seen";
+}
+elsif
+  anyof(
+  address :matches "From" "*@seattledsa.org",
+  address :matches "From" "*@dsausa.org",
+  header :is ["List-Id","List-Post"] ["dsa-libertarian-socialist-caucus.googlegroups.com","<dsa-libertarian-socialist-caucus.googlegroups.com>"],
+  address :is "From" "dsadisability@gmail.com"
+  )
+{
+  fileinto "INBOX.DSA";
+}
+elsif address :is "From" "hi@meh.com" {
+  fileinto "INBOX.Lists.Meh";
+}
+elsif address :is "From" "contact@mailer.humblebundle.com" {
+  fileinto "INBOX.Lists.Humble Bundle";
+}
+elsif address :is "From" "notifications@github.com" {
+  fileinto "INBOX.GitHub";
+}
 
 ### 8. Sieve generated for pop-link filing
 # You have no pop-links filing into special folders.
