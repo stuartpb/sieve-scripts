@@ -57,7 +57,7 @@ elsif exists "X-ME-Cal-Exists" {
 if
   allof(
   address :is "From" "service@paypal.com",
-  header :is "X-Email-Type-Id" "PPC000590"
+  header :regex "X-Email-Type-Id" "PPC(000590|000612)"
   )
 {
   addflag "\\Seen";
