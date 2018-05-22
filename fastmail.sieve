@@ -57,7 +57,17 @@ elsif exists "X-ME-Cal-Exists" {
 if
   allof(
   address :is "From" "service@paypal.com",
-  header :regex "X-Email-Type-Id" "PPC(000590|000612)"
+  header :regex "X-Email-Type-Id" "PPC000590|PPC000612|PPX001066"
+  )
+{
+  addflag "\\Seen";
+  fileinto "INBOX.Receipts";
+  removeflag "\\Seen";
+}
+elsif
+  allof(
+  address :is "From" "no-repy@lyftmail.com",
+  header :is "X-Mailgun-Tag" "receipt"
   )
 {
   addflag "\\Seen";
