@@ -29,8 +29,7 @@ if not header :matches "X-Spam-Known-Sender" "yes*" {
 ### 5. Sieve generated for vacation responses
 # You do not have vacation responses enabled.
 
-### Custom filing code
-# file email into legacy that doesn't contain a modern address
+### Custom legacy filing
 if allof (
   address :is ["To","Cc","Resent-To","X-Delivered-To"] "stuart@testtrack4.com",
   not address :domain :is ["To","Cc"] "stuartpb.com"
@@ -55,26 +54,6 @@ elsif exists "X-ME-Cal-Exists" {
 
 ### 7. Sieve generated for organise rules
 if
-  allof(
-  address :is "From" "service@paypal.com",
-  header :regex "X-Email-Type-Id" "PPC000590|PPC000612|PPX001066"
-  )
-{
-  addflag "\\Seen";
-  fileinto "INBOX.Receipts";
-  removeflag "\\Seen";
-}
-elsif
-  allof(
-  address :is "From" "no-repy@lyftmail.com",
-  header :is "X-Mailgun-Tag" "receipt"
-  )
-{
-  addflag "\\Seen";
-  fileinto "INBOX.Receipts";
-  removeflag "\\Seen";
-}
-elsif
   anyof(
   address :matches "From" "*@seattledsa.org",
   address :matches "From" "*@dsausa.org",
@@ -96,3 +75,14 @@ elsif address :is "From" "notifications@github.com" {
 
 ### 8. Sieve generated for pop-link filing
 # You have no pop-links filing into special folders.
+
+### Custom receipt filing
+if anyof(
+  allof(address :is "From" "service@paypal.com",
+    header :regex "X-Email-Type-Id" "PPC000590|PPC000612|PPX001066"),
+  allof(address :is "From" "no-repy@lyftmail.com",
+    header :is "X-Mailgun-Tag" "receipt")) {
+  addflag "\\Seen";
+  fileinto "INBOX.Receipts";
+  removeflag "\\Seen";
+}
