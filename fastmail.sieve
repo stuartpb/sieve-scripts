@@ -79,7 +79,7 @@ elsif address :is "From" "notifications@github.com" {
 ### Custom receipt filing
 if anyof(
   allof(address :is "From" "service@paypal.com",
-    header :is "X-Email-Type-Id" ["PPC000590","PPC000612","PPX001066"]),
+    header :is "X-Email-Type-Id" ["PPC000590","PPC000612","PPX000608","PPX001066"]),
   allof(address :is "From" "no-repy@lyftmail.com",
     header :is "X-Mailgun-Tag" "receipt")) {
   addflag "\\Seen";
